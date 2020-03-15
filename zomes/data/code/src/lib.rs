@@ -57,6 +57,11 @@ define_zome! {
     ]
 
     traits: {
-    //     hc_public [create_my_entry, get_my_entry]
+         hc_public [
+            create_possibility,
+            get_possibility,
+            create_convergence,
+            get_convergence
+         ]
     }
 }

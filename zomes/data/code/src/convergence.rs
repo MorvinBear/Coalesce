@@ -24,13 +24,13 @@ pub struct Convergence {
     description: String
 }
 
-pub fn create(entry: Instance) -> ZomeApiResult<Address> {
+pub fn create(entry: Convergence) -> ZomeApiResult<Address> {
     let entry = Entry::App("convergence".into(), entry.into());
     let address = hdk::commit_entry(&entry)?;
     Ok(address)
 }
 
-pub fn get(address: Address) -> ZomeApiResult<Instance> {
+pub fn get(address: Address) -> ZomeApiResult<Convergence> {
     hdk::utils::get_as_type(address)
 }
 
@@ -43,7 +43,7 @@ pub fn definition() -> ValidatingEntryType {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: | _validation_data: hdk::EntryValidationData<Instance>| {
+        validation: | _validation_data: hdk::EntryValidationData<Convergence>| {
             Ok(())
         },
 

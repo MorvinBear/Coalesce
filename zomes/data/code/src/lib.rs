@@ -7,8 +7,8 @@ extern crate serde_json;
 #[macro_use]
 extern crate holochain_json_derive;
 
-mod template;
-mod instance;
+mod possibility;
+mod convergence;
 
 use hdk::{
     error::ZomeApiResult,
@@ -23,8 +23,8 @@ use hdk::holochain_json_api::{
 
 define_zome! {
     entries: [
-       template::definition(),
-       instance::definition()
+       possibility::definition(),
+       convergence::definition()
     ]
 
     init: || { Ok(()) }
@@ -34,29 +34,29 @@ define_zome! {
     }
 
     functions: [
-        create_template: {
-            inputs: |entry: template::Template|,
+        create_possibility: {
+            inputs: |entry: possibility::Possibility|,
             outputs: |result: ZomeApiResult<Address>|,
-            handler: template::create
+            handler: possibility::create
         }
-        get_template: {
+        get_possibility: {
             inputs: |address: Address|,
-            outputs: |result: ZomeApiResult<template::Template>|,
-            handler: template::get
+            outputs: |result: ZomeApiResult<possibility::Possibility>|,
+            handler: possibility::get
         }
-        create_instance: {
-            inputs: |entry: instance::Instance|,
+        create_convergence: {
+            inputs: |entry: convergence::Convergence|,
             outputs: |result: ZomeApiResult<Address>|,
-            handler: instance::create
+            handler: convergence::create
         }
-        get_instance: {
+        get_convergence: {
             inputs: |address: Address|,
-            outputs: |result: ZomeApiResult<instance::Instance>|,
-            handler: instance::get
+            outputs: |result: ZomeApiResult<convergence::Convergence>|,
+            handler: convergence::get
         }
     ]
 
     traits: {
-        hc_public [create_my_entry, get_my_entry]
+    //     hc_public [create_my_entry, get_my_entry]
     }
 }

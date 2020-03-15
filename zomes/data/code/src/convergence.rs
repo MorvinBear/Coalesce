@@ -19,13 +19,13 @@ use hdk::holochain_json_api::{
 
 
 #[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
-pub struct Instance {
+pub struct Convergence {
     name: String,
     description: String
 }
 
 pub fn create(entry: Instance) -> ZomeApiResult<Address> {
-    let entry = Entry::App("instant".into(), entry.into());
+    let entry = Entry::App("convergence".into(), entry.into());
     let address = hdk::commit_entry(&entry)?;
     Ok(address)
 }
@@ -36,8 +36,8 @@ pub fn get(address: Address) -> ZomeApiResult<Instance> {
 
 pub fn definition() -> ValidatingEntryType {
     entry!(
-        name: "instance",
-        description: "An attempt to organize a happening",
+        name: "convergence",
+        description: "A convergence of a possibility",
         sharing: Sharing::Public,
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
@@ -47,14 +47,14 @@ pub fn definition() -> ValidatingEntryType {
             Ok(())
         },
 
-        links: [ link_to_template() ]
+        links: [ link_to_possibility() ]
     )
 }
 
-pub fn link_to_template() -> ValidatingLinkDefinition {
+pub fn link_to_possibility() -> ValidatingLinkDefinition {
     link!(
        direction: hdk::LinkDirection::To,
-       other_type: "template",
+       other_type: "possibility",
        link_type: "generatedFrom",
        validation_package: || {
             hdk::ValidationPackageDefinition::ChainFull

@@ -17,41 +17,41 @@ use hdk::holochain_json_api::{
 };
 
 #[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
-pub struct Template {
+pub struct Possibility {
     title: String,
     description: String,
     suggested_min: i32,
     suggested_max: i32,
-    roles: Vec<TemplateRole>,
+    criteria: Vec<PossibilityCriteria>,
 }
 
-pub fn create(entry: Template) -> ZomeApiResult<Address> {
-    let entry = Entry::App("template".into(), entry.into());
+pub fn create(entry: Possibility) -> ZomeApiResult<Address> {
+    let entry = Entry::App("Possibility".into(), entry.into());
     let address = hdk::commit_entry(&entry)?;
     Ok(address)
 }
 
-pub fn get(address: Address) -> ZomeApiResult<Template> {
+pub fn get(address: Address) -> ZomeApiResult<Possibility> {
     hdk::utils::get_as_type(address)
 }
 
 pub fn definition() -> ValidatingEntryType {
     entry!(
-        name: "template",
-        description: "An archetype for organize events of a specific nature",
+        name: "Possibility",
+        description: "A template of a possible convergence of people around an idea (e.g. a Game Night) with criteria specified for limiting the convergence.",
         sharing: Sharing::Public,
         validation_package: || {
             hdk::ValidationPackageDefinition::Entry
         },
 
-        validation: | _validation_data: hdk::EntryValidationData<Template>| {
+        validation: | _validation_data: hdk::EntryValidationData<Possibility>| {
             Ok(())
         }
     )
 }
 
 #[derive(Serialize, Deserialize, Debug, DefaultJson, Clone)]
-pub struct TemplateRole {
+pub struct PossibilityCriteria {
     name: String,
     description: String,
 }

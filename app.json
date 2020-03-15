@@ -1,14 +1,12 @@
 {
-  "name": "Coalesce",
-  "description": "An app for (self) organizing events",
-  "authors": [
-    {
-      "identifier": "Author Name <author@name.com>",
-      "public_key_source": "",
-      "signature": ""
-    }
-  ],
-  "version": "0.1.0",
-  "dht": {},
-  "properties": null
+    "name": "Converge",
+    "description": "An app for (self) organizing events",
+    "authors": [{
+        "identifier": "Author Name <author@name.com>",
+        "public_key_source": "",
+        "signature": ""
+    }],
+    "version": "0.1.0",
+    "dht": {},
+    "properties": null
 }

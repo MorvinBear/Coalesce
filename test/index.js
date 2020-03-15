@@ -2,6 +2,8 @@
 /// See the tryorama README [https://github.com/holochain/tryorama]
 /// for a potentially more accurate example
 
+
+
 const path = require('path')
 
 const { Orchestrator, Config, combine, singleConductor, localOnly, tapeExecutor } = require('@holochain/tryorama')
@@ -11,7 +13,11 @@ process.on('unhandledRejection', error => {
   console.error('got unhandledRejection:', error);
 });
 
-const dnaPath = path.join(__dirname, "../dist/coallesce.dna.json")
+
+const dnaPath = path.join(__dirname, "../dist/Converge19.dna.json")
+console.log("dnaPath=", dnaPath)
+
+
 
 const orchestrator = new Orchestrator({
   middleware: combine(
@@ -31,24 +37,36 @@ const orchestrator = new Orchestrator({
   ),
 })
 
-const dna = Config.dna(dnaPath, 'scaffold-test')
-const conductorConfig = Config.gen({myInstanceName: dna})
+const dna = Config.dna(dnaPath, 'converge')
+const conductorConfig = Config.gen({newPossibility: dna}, {
+	network: {
+		type: 'sim2h',
+		sim2h_url: 'ws://localhost:9000',
+	}
+})
 
-orchestrator.registerScenario("description of example test", async (s, t) => {
+orchestrator.registerScenario("can create and retrieve a possibility", async (s, t) => {
 
   const {alice, bob} = await s.players({alice: conductorConfig, bob: conductorConfig}, true)
 
+  var entry = {"title": "Game Night",
+                 "description": "Winners and losers",
+                 "suggested_min": 4,
+                 "suggested_max": 8,
+                 "criteria": []}
+
   // Make a call to a Zome function
   // indicating the function, and passing it an input
-  const addr = await alice.call("myInstanceName", "my_zome", "create_my_entry", {"entry" : {"content":"sample content"}})
+  const addr = await alice.call("newPossibility", "data", "create_possibility", {"entry" :
+                                                                                  entry })
 
   // Wait for all network activity to settle
   await s.consistency()
 
-  const result = await bob.call("myInstanceName", "my_zome", "get_my_entry", {"address": addr.Ok})
+  const result = await bob.call("newPossibility", "data", "get_possibility", {"address": addr.Ok})
 
   // check for equality of the actual and expected results
-  t.deepEqual(result, { Ok: { App: [ 'my_entry', '{"content":"sample content"}' ] } })
+  t.deepEqual(result.Ok, entry)
 })
 
 orchestrator.run()

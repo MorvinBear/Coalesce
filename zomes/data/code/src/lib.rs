@@ -7,6 +7,7 @@ extern crate serde_json;
 #[macro_use]
 extern crate holochain_json_derive;
 
+mod anchor;
 mod possibility;
 mod convergence;
 
@@ -23,6 +24,7 @@ use hdk::holochain_json_api::{
 
 define_zome! {
     entries: [
+       anchor::definition(),
        possibility::definition(),
        convergence::definition()
     ]
@@ -44,6 +46,11 @@ define_zome! {
             outputs: |result: ZomeApiResult<possibility::Possibility>|,
             handler: possibility::get
         }
+        list_possibilities: {
+            inputs: | |,
+            outputs: |result: ZomeApiResult<Vec<possibility::PossibilityResult>>|,
+            handler: possibility::list
+        }
         create_convergence: {
             inputs: |entry: convergence::Convergence|,
             outputs: |result: ZomeApiResult<Address>|,
@@ -60,6 +67,7 @@ define_zome! {
          hc_public [
             create_possibility,
             get_possibility,
+            list_possibilities,
             create_convergence,
             get_convergence
          ]

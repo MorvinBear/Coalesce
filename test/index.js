@@ -53,17 +53,22 @@ orchestrator.registerScenario("can create and retrieve a possibility", async (s,
                  "description": "Winners and losers",
                  "suggested_min": 4,
                  "suggested_max": 8,
-                 "criteria": []}
+                 "criteria": [
+                   {
+                     "name": "My Criteria", 
+                     "description":"Must have already recovered from the virus."
+                    }
+                 ]}
 
   // Make a call to a Zome function
   // indicating the function, and passing it an input
-  const addr = await alice.call("newPossibility", "data", "create_possibility", {"entry" :
+  const addr = await alice.call("newPossibility", "converge", "create_possibility", {"entry" :
                                                                                   entry })
 
   // Wait for all network activity to settle
   await s.consistency()
 
-  const result = await bob.call("newPossibility", "data", "get_possibility", {"address": addr.Ok})
+  const result = await bob.call("newPossibility", "converge", "get_possibility", {"address": addr.Ok})
 
   // check for equality of the actual and expected results
   t.deepEqual(result.Ok, entry)
